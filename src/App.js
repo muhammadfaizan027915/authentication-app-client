@@ -9,19 +9,28 @@ import {
 } from "react-router-dom";
 import Home from "./Pages/Home";
 import Register from "./Pages/Register";
+import { ContextProvider } from "./Context/Context";
+import Auth from "./Auth/Auth";
+import IsLogin from "./Auth/IsLgoin"
+import Dashboard from "./Pages/Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Auth Component={Login} />} />
+      <Route path="/register" element={<Auth Component={Register} />} />
+      <Route path="/dashboard" element={<IsLogin Component={Dashboard} />} />
     </Route>
   )
 );
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <ContextProvider>
+      <RouterProvider router={router} />;
+    </ContextProvider>
+  );
 };
 
 export default App;

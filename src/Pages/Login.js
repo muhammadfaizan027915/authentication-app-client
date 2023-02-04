@@ -1,31 +1,63 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+
+  const loginUser = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    axios
+      .post(
+        "http://localhost:4000/login",
+        {
+          email: formData.get("email"),
+          password: formData.get("password"),
+        }, {withCredentials: true}
+      )
+      .then((response) => {
+        navigate("/dashboard", { replace: true });
+        window.location.reload(true);
+      })
+      .catch((err) => setError(err.response.data.message));
+  };
+  
   return (
-    <form className="w-50 m-auto p-5">
-      <div class="m-3">
+    <form className="w-50 m-auto p-5" onSubmit={loginUser}>
+      <div className="m-3">
         <h3>Login</h3>
-        <label for="exampleInputEmail1" class="form-label">
+        {error ? (
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        ) : (
+          ""
+        )}
+        <label htmlFor="email" className="form-label">
           Email address
         </label>
         <input
           type="email"
-          class="form-control"
-          id="exampleInputEmail1"
+          className="form-control"
+          id="email"
           aria-describedby="emailHelp"
+          name="email"
         />
       </div>
-      <div class="m-3">
-        <label for="exampleInputPassword1" class="form-label">
+      <div className="m-3">
+        <label htmlFor="password" className="form-label">
           Password
         </label>
         <input
           type="password"
-          class="form-control"
-          id="exampleInputPassword1"
+          className="form-control"
+          id="password"
+          name="password"
         />
       </div>
-      <button type="submit" class="btn btn-primary mx-3">
+      <button type="submit" className="btn btn-primary m-3">
         Submit
       </button>
     </form>
