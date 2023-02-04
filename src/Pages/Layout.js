@@ -28,8 +28,8 @@ const Layout = () => {
       })
       .then((response) => {
         setUser(null);
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -65,7 +65,12 @@ const Layout = () => {
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" to={"/login"} onClick={logout}>
+                    <a
+                      className="nav-link"
+                      to={"/login"}
+                      onClick={logout}
+                      style={{ cursor: "pointer" }}
+                    >
                       Logout
                     </a>
                   </li>
